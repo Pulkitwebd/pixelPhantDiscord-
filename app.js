@@ -63,7 +63,7 @@ client.on('messageCreate', async (message) => {
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
 
-  const commands = await client.application.commands.set([
+  await client.application.commands.set([
     {
       name: 'ppcreateuser',  // Changed from 'ppcreateuser' to 'pp-create-user'
       description: 'Create a new user',
@@ -111,7 +111,7 @@ client.on('interactionCreate', async (interaction) => {
     if (username && email && password) {
       try {
         // Call the API to create the user with username, email, and password
-        const response = await axios.post('http://localhost:5000/api/users/register', { username, email, password });
+        const response = await axios.post('https://pixelphantdiscord.onrender.com/api/users/register', { username, email, password });
 
         if (response.status === 201 && response.data && response.data._id) {
           const token = response.data.token; // Make sure the response includes the token
@@ -137,7 +137,7 @@ client.on('interactionCreate', async (interaction) => {
   
     if (token) {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/profile', {
+        const response = await axios.get('https://pixelphantdiscord.onrender.com/api/users/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
   
@@ -175,7 +175,7 @@ client.on('interactionCreate', async (interaction) => {
         const serviceID = Math.floor(Math.random() * 1000);  // Generate a random serviceID (or implement logic for unique IDs)
 
         // Send POST request to create a new subscription
-        const response = await axios.post('http://localhost:5000/api/subscriptions', {
+        const response = await axios.post('https://pixelphantdiscord.onrender.com/api/subscriptions', {
           serviceID,
           serviceName,
           serviceLink,
