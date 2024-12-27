@@ -29,36 +29,6 @@ client.login(process.env.DISCORD_BOT_TOKEN);
 console.log("connecting db");
 connectDB();
 
-// Discord bot interaction for creating user
-client.on('messageCreate', async (message) => {
-  if (message.content.startsWith('/ppcreateuser')) {
-    const args = message.content.split(' '); // Split the message by spaces
-    const username = args[1] ? args[1].replace('username:', '') : null; // Get username from the message
-    const email = args[2] ? args[2].replace('email:', '') : null; // Get email from the message
-    const password = args[3] ? args[3].replace('password:', '') : null; // Get password from the message
-
-    if (username && email && password) {
-      try {
-        // Call your API to create the user with username, email, and password
-        const response = await axios.post('http://localhost:5000/api/users/register', { username, email, password });
-
-        if (response.data && response.data.message === 'User created successfully') {
-          await message.reply(`User ${username} has been created successfully!`);
-        } else if (response.data.message === 'User already exists') {
-          await message.reply('Error: Username already exists. Please choose a different username.');
-        } else {
-          await message.reply('Failed to create the user.');
-        }
-      } catch (error) {
-        console.error('Error while creating user:', error);
-        await message.reply('An error occurred while creating the user.');
-      }
-    } else {
-      await message.reply('Please provide a valid username, email, and password.');
-    }
-  }
-});
-
 // Register slash commands (one-time registration)
 client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}`);
